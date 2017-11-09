@@ -601,6 +601,20 @@ $block->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
 ```
 <br>
 
+
+###取得當前 Category
+```php
+
+ $registry = $objectManager->get('Magento\Framework\Registry');
+
+ $currentCatetory = $registry->registry('current_category');
+
+ echo $catId = $currentCatetory->getId();
+
+```
+<br>
+
+
 ####參考文件：[Segmentfault.com](https://segmentfault.com/a/1190000005154774#articleHeader31)
 
 
