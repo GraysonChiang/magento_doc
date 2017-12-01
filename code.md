@@ -615,6 +615,36 @@ $block->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
 <br>
 
 
+
+###增加Category 的 Attr
+####可以寫在install data 裡面
+```php
+
+
+        /* @var $eavSetup \Magento\Eav\Setup\EavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+
+        $eavSetup->addAttribute(
+            \Magento\Catalog\Model\Category::ENTITY,
+            'mch_num',
+            [
+                'type' => 'text',
+                'label' => 'MCH Number',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 4,
+                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
+                'wysiwyg_enabled' => false,
+                'is_html_allowed_on_front' => true,
+                'group' => '',
+            ]
+        );
+
+```
+<br>
+
+
+
 ####參考文件：[Segmentfault.com](https://segmentfault.com/a/1190000005154774#articleHeader31)
 
 
