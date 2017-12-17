@@ -625,7 +625,6 @@ $collection->addAttributeToSelect('special_price', 'left');
 $collection->getSelect()->order('IF(special_from_date < now() AND special_to_date > now(), special_price, 0) DESC');
 ```
 <br>
-### 參考文件：
+
+### 參考文件
 [Segmentfault.com](https://segmentfault.com/a/1190000005154774#articleHeader31)
-<br>	
-[magento-2-create-custom-query](http://www.webmull.com/magento-2-create-custom-query/)
