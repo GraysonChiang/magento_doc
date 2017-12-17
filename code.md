@@ -591,8 +591,10 @@ foreach($collection as $row) {
 ```
 
 <br>
+
 # Entity collection
 ## 常用方法
+
 ```php
 $collection->addAttributeToFilter($field, [ 'in' => $arr ]);
 $collection->addAttributeToSort($field, 'desc');
@@ -603,8 +605,8 @@ $collection->addAttributeToSelect($field);
 ```
 <br>
 
-# 包含 field 的查询
-#### Entity collection有查询field的能力，只要查询条件里跟field有关，就会自动把field所在的表join到查询中
+# 包含 Field 的查询
+#### Entity Collection 有查詢 field 的能力，只要查詢條件裡跟 field 有關，就會自動把 field 所在的表 join 到查詢中
 
 ```php
 $collection->addAttributeToSelect($field, 'left'); // 等同于select xx as field ... left join xxx
@@ -614,9 +616,8 @@ $collection->setOrder($field, 'ASC'); // 等同于order by xxx ASC
 
 <br>
 
-
 # 特價置頂
-#### Special Price是個特别的個案，需要在有效期間生效，有效期外不生效
+#### Special Price 是個特别的個案，需要在有效期間生效，有效期外不生效
 
 ```php
 $collection->addAttributeToSelect('special_from_date', 'left');
