@@ -1,23 +1,19 @@
-#Magento 2 郵件相關
+# Magento2 郵件相關
 
-##定義郵件模板 ( <Module>/etc/email_templates.xml )
+## 定義郵件模板 
+#####<Module>/etc/email_templates.xml
 
-```
-
+```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
     <template id="module_hello_email_template" label="Test Mail" file="hello.html" type="html" module="Infinity_Base" area="frontend"/>
 </config>
-
-
 ```
-<br><br>
+<br>
 
-##建立郵件模組 (<Module>/view/frontend/email/hello.html)
+## 建立郵件模組 (<Module>/view/frontend/email/hello.html)
 
-```
-
-
+```html
 <!--@subject {{trans "Welcome to %store_name" store_name=$store.getFrontendName()}} @-->
 <!--@vars {
 "var this.getUrl($store, 'customer/account/')":"Customer Account URL",
@@ -29,18 +25,12 @@
 <p class="greeting">Hello {{trans "%name," name=$name}}</p>
 
 {{template config_path="design/email/footer_template"}}
-
-
-
 ```
 
-<br><br>
+<br>
 
-##寄送郵件
-
-```
-
-
+## 寄送郵件
+```php
 $templateId = 'module_hello_email_template';
 $templateParams = ['name' => 'william'];
 
@@ -59,17 +49,10 @@ $transportBuilder->setTemplateIdentifier($templateId)
     ->addTo($customer->getCustomer()->getEmail(), $customer->getCustomer()->getFirstname())
     ->getTransport()
     ->sendMessage();
-
-
-
 ```
-
-<br><br>
-##取得郵件模組
-
-```
-
-
+<br>
+## 取得郵件模組
+```php
 // template id, 通常在email_templates.xml定义。如果是在后台加的email template，需要换成template的记录ID，例如90
 $identifier = 'contact_email_email_template';
 /* @var \Magento\Framework\Mail\TemplateInterface $templateFactory */
@@ -87,20 +70,16 @@ $templateFactory->setOptions([
 ]);
 $templateFactory->setVars(['data' => $dataObject]);
 return $templateFactory->processTemplate();
-
-
 ```
 
-<br><br>
-##模組變數
-```
-
+<br>
+## 模組變數
+```php
 vendor/magento/module-sales/Model/Order/Email/Sender/*.php
 vendor/magento/module-customer/Model/EmailNotification.php
 vendor/magento/module-send-friend/Model/SendFriend.php
-
-
 ```
-<br><br><br><br>
-###參考資料：[Segmentfault.com](https://segmentfault.com/a/1190000005590715)
+<br>
+### 參考資料：
+[Segmentfault.com](https://segmentfault.com/a/1190000005590715)
 
