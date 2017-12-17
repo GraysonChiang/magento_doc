@@ -1,7 +1,7 @@
 # Magento2 郵件相關
 
 ## 定義郵件模板 
-#####<Module>/etc/email_templates.xml
+##### <Module>/etc/email_templates.xml
 
 ```xml
 <?xml version="1.0"?>
