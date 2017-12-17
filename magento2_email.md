@@ -51,7 +51,9 @@ $transportBuilder->setTemplateIdentifier($templateId)
     ->sendMessage();
 ```
 <br>
+
 ## 取得郵件模組
+
 ```php
 // template id, 通常在email_templates.xml定义。如果是在后台加的email template，需要换成template的记录ID，例如90
 $identifier = 'contact_email_email_template';
@@ -73,13 +75,16 @@ return $templateFactory->processTemplate();
 ```
 
 <br>
+
 ## 模組變數
 ```php
 vendor/magento/module-sales/Model/Order/Email/Sender/*.php
 vendor/magento/module-customer/Model/EmailNotification.php
 vendor/magento/module-send-friend/Model/SendFriend.php
 ```
+
 <br>
 ### 參考資料：
+
 [Segmentfault.com](https://segmentfault.com/a/1190000005590715)
 
