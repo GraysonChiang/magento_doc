@@ -11,7 +11,8 @@
 ```
 <br>
 
-## 建立郵件模組 (<Module>/view/frontend/email/hello.html)
+## 建立郵件模組
+##### <Module>/view/frontend/email/hello.html
 
 ```html
 <!--@subject {{trans "Welcome to %store_name" store_name=$store.getFrontendName()}} @-->
@@ -77,14 +78,14 @@ return $templateFactory->processTemplate();
 <br>
 
 ## 模組變數
-```php
+```
 vendor/magento/module-sales/Model/Order/Email/Sender/*.php
 vendor/magento/module-customer/Model/EmailNotification.php
 vendor/magento/module-send-friend/Model/SendFriend.php
 ```
 
 <br>
-### 參考資料：
 
+### 參考資料：
 [Segmentfault.com](https://segmentfault.com/a/1190000005590715)
 
