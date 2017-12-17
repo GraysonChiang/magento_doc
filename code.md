@@ -1,7 +1,7 @@
 #Magento 2 常用程式碼
 
 
-##取得objectManager
+## 取得objectManager
 
 ```php
 
@@ -11,7 +11,7 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 ```
 <br><br>
 
-##DataObject 所有 Model 的基礎
+## DataObject 所有 Model 的基礎
 
 ```php
 
@@ -29,7 +29,7 @@ $row->debug();
 <br><br>
 
 
-##Session
+## Session
 ```php
 
 $session = $objectManager->get('Magento\Framework\Session\Storage');
@@ -44,7 +44,7 @@ $session->unsXxxx();
 
 
 
-##Cache
+## Cache
 ```php
 
 // save
@@ -75,7 +75,7 @@ if(strlen($cached)) {
 ```
 <br><br>
 
-##判斷是否為首頁
+## 判斷是否為首頁
 
 ```php
 
@@ -88,7 +88,7 @@ if($this->_request->getRouteName() == 'cms' && $this->_request->getActionName() 
 ```
 <br><br>
 
-##Registry 用於內部傳遞臨時變數
+## Registry 用於內部傳遞臨時變數
 
 ```php
 
@@ -103,7 +103,7 @@ $coreRegistry->registry('current_category');
 ```
 <br><br>
 
-##取得當前Store
+## 取得當前Store
 ```php
 
 $store = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->getStore();
@@ -112,7 +112,7 @@ $store = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->get
 ```
 <br><br>
 
-##提示訊息 Message
+## 提示訊息 Message
 
 ```php
 
@@ -125,7 +125,7 @@ return $this->_redirect ( $returnUrl );
 ```
 <br><br>
 
-##log (support_report.log)
+## log (support_report.log)
 
 ```php
 
@@ -142,7 +142,7 @@ return $this->_redirect ( $returnUrl );
 ```
 <br><br>
 
-##取得當前頁面 URL
+## 取得當前頁面 URL
 
 ```php
 
@@ -154,7 +154,7 @@ $currentUrl = $objectManager->get( 'Magento\Framework\UrlInterface' )->getCurren
 
 
 
-##取得指定路由 URL
+## 取得指定路由 URL
 
 ```php
 
@@ -164,7 +164,7 @@ $url = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->getSt
 ```
 <br><br>
 
-##Block 裡的 URL
+## Block 裡的 URL
 
 ```php
 
@@ -181,7 +181,7 @@ $block->getViewFileUrl( 'images/loader-2.gif' );
 <br><br>
 
 
-##取得所有 website 的位置
+## 取得所有 website 的位置
 
 ```php
 
@@ -196,7 +196,7 @@ foreach($storeManager->getWebsites() as $website) {
 <br><br>
 
 
-##取得 module 下的文件
+## 取得 module 下的文件
 
 ```php
 
@@ -222,7 +222,7 @@ $asset->createAsset('Vendor_Module::js/script.js')->getPath();
 <br><br>
 
 
-##檔案操作
+## 檔案操作
 
 ```php
 
@@ -237,7 +237,7 @@ $fileSystem->getDirectoryWrite('tmp')->create($file);
 <br><br>
 
 
-##檔案上傳
+## 檔案上傳
 ```php
 
 // 上传到media
@@ -282,7 +282,7 @@ $directory->getPath($directory::TMP).$result['file'];
 <br><br>
 
 
-##產品縮圖
+## 產品縮圖
 ```php
 
 $imageHelper = $objectManager->get( 'Magento\Catalog\Helper\Image' );
@@ -298,7 +298,7 @@ $productImage = $imageHelper->init( $product, 'category_page_list' )
 <br><br>
 
 
-##一般縮圖
+## 一般縮圖
 ```php
 
 $imageFactory = $objectManager->get( 'Magento\Framework\Image\Factory' );
@@ -311,7 +311,7 @@ $imageAdapter->save($savePath);
 <br><br>
 
 
-##產品属性
+## 產品属性
 ```php
 
 /* @var \Magento\Catalog\Model\ProductRepository $product */
@@ -349,7 +349,7 @@ if ($_product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Co
 <br><br>
 
 
-##取得購物車中所有商品
+## 取得購物車中所有商品
 ```php
 
 /* @var \Magento\Checkout\Model\Session $checkoutSession */
@@ -364,7 +364,7 @@ foreach($checkoutSession->getQuote()->getItems() as $item) {
 <br><br>
 
 
-##取得 Product Type 配置
+## 取得 Product Type 配置
 ```php
 
 $eavConfig->getAttribute('catalog_product', 'price');
@@ -375,7 +375,7 @@ $eavConfig->getEntityType('catalog_product');
 <br><br>
 
 
-##取得 EAV 属性所有可選選項
+## 取得 EAV 属性所有可選選項
 
 ```php
 
@@ -394,7 +394,7 @@ $options = $objectManager->create( 'Magento\Eav\Model\Attribute' )
 <br><br>
 
 
-##取得 config.xml 與 system.xml 裡的參數
+## 取得 config.xml 與 system.xml 裡的參數
 
 ```php
 
@@ -406,7 +406,7 @@ $this->_scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeI
 ```
 <br><br>
 
-##客戶唯一屬性驗證
+## 客戶唯一屬性驗證
 
 ```php
 
@@ -429,7 +429,7 @@ if($customer instanceof \Magento\Customer\Model\Customer) {
 <br><br>
 
 
-##讀取 design view.xml
+## 讀取 design view.xml
 
 ```php
 
@@ -451,8 +451,8 @@ $viewConfig->getVarValue('Vendor_Module', 'var1');
 <br><br>
 
 
-##取得郵件模組
-#####雖然叫郵件模組，但也可以用于需要后台编辑模板的程序
+## 取得郵件模組
+##### 雖然叫郵件模組，但也可以用于需要后台编辑模板的程序
 
 ```php
 
@@ -479,7 +479,7 @@ return $templateFactory->processTemplate();
 <br><br>
 
 
-##内容返回
+## 内容返回
 ```php
 
 $this->resultFactory = $this->_objectManager->create('Magento\Framework\Controller\Result\RawFactory');
@@ -504,7 +504,7 @@ return $result;
 <br><br>
 
 
-##HTTP文件
+## HTTP文件
 ```php
 
 $this->_fileFactory = $this->_objectManager->create('Magento\Framework\App\Response\Http\FileFactory');
@@ -520,7 +520,7 @@ $this->_fileFactory->create(
 <br><br>
 
 
-##切换貨幣與語言
+## 切换貨幣與語言
 
 ```php
 
@@ -552,7 +552,7 @@ $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
 
 
 
-##Profiler
+## Profiler
 ```php
 
 \Magento\Framework\Profiler::start(
@@ -585,7 +585,7 @@ $block->getLayout()->createBlock('Magento\Framework\View\Element\Html\Date')
 <br><br>
 
 
-###Select 元件
+## Select 元件
 ```php
 
 $block->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
@@ -602,7 +602,7 @@ $block->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
 <br>
 
 
-###取得當前 Category
+## 取得當前 Category
 ```php
 
  $registry = $objectManager->get('Magento\Framework\Registry');
