@@ -1,6 +1,6 @@
 ---
 ID: 53
-post_title: 什麼是 Magento
+post_title: Magento 2 常用程式碼
 author: Grayson
 post_excerpt: ""
 layout: post
@@ -13,8 +13,7 @@ post_date: 2017-12-25 16:04:56
 ## 取得objectManager
 
 `php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();`   
-
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();`
 
 ## DataObject 所有 Model 的基礎
 
@@ -26,8 +25,7 @@ $row->hasData($key);
 $row->unsetData();
 $row->toXml();
 $row->toJson();
-$row->debug();`   
-
+$row->debug();`
 
 ## Session
 
@@ -36,41 +34,36 @@ $session = $objectManager->get('Magento\Framework\Session\Storage');
 $session->setXxxx($value);
 $session->getXxxx();
 $session->hasXxxx();
-$session->unsXxxx();`   
-
+$session->unsXxxx();`
 
 ## Cache
 
-\``\`php // save $this->cache = $context->getCache(); $this->cache->save(\Zend_Json::encode($data), self::CACHE_PREFIX . $key, [], $lifeTime);
+``\`php // save $this->cache = $context->getCache(); $this->cache->save(\Zend_Json::encode($data), self::CACHE_PREFIX . $key, [], $lifeTime);
 
 // load $jsonStr = $this->cache->load(self::CACHE_PREFIX . $cacheKey); if (strlen($jsonStr)) { $this->cachedData = \Zend_Json::decode($jsonStr); }
 
 // sample $cache = $objectManager->get(\Magento\Framework\App\CacheInterface::class); $cached = $cache->load($cacheKey); if(strlen($cached)) { $data = unserialize($cached); } else { $data = []; $product = $objectManager->create('Magento\Catalog\Model\ProductRepository')->getById($id); $row = new \Magento\Framework\DataObject(); $row->setData($row->getData()); $data []= $row; $cache->save(serialize($data), $cacheKey); }
 
-\``\`   
-
+``\`
 
 ## 判斷是否為首頁
 
-\``\`php // in action if($this->\_request->getRouteName() == 'cms' && $this->\_request->getActionName() == 'index') { // is home }
+``\`php // in action if($this->\_request->getRouteName() == 'cms' && $this->\_request->getActionName() == 'index') { // is home }
 
-\``\`   
-
+``\`
 
 ## Registry 用於內部傳遞臨時變數
 
-\``\`php /* @var \Magento\Framework\Registry $coreRegistry */ $coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
+``\`php /* @var \Magento\Framework\Registry $coreRegistry */ $coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
 
 // 存储值 $coreRegistry->register('current_category', $category);
 
-// 提取值 $coreRegistry->registry('current_category'); \``\`   
-
+// 提取值 $coreRegistry->registry('current_category'); ``\`
 
 ## 取得當前Store
 
 `php
-$store = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->getStore();`   
-
+$store = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->getStore();`
 
 ## 提示訊息 Message
 
@@ -78,8 +71,7 @@ $store = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->get
 // \Magento\Framework\App\Action\Action::execute()
 $this->messageManager->addSuccessMessage(__('You deleted the event.'));
 $this->messageManager->addErrorMessage(__('You deleted the event.'));
-return $this->_redirect ( $returnUrl );`   
-
+return $this->_redirect ( $returnUrl );`
 
 ## log (support_report.log)
 
@@ -91,20 +83,17 @@ return $this->_redirect ( $returnUrl );`
         'order_id' => $order_id,
         'item_id' => $item_id
         // ...
-    ]);`   
-
+    ]);`
 
 ## 取得當前頁面 URL
 
 `php
-$currentUrl = $objectManager->get( 'Magento\Framework\UrlInterface' )->getCurrentUrl();`   
-
+$currentUrl = $objectManager->get( 'Magento\Framework\UrlInterface' )->getCurrentUrl();`
 
 ## 取得指定路由 URL
 
 `php
-$url = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->getStore()->getUrl( 'xxx/xxx/xxx' );`   
-
+$url = $objectManager->get( 'Magento\Store\Model\StoreManagerInterface' )->getStore()->getUrl( 'xxx/xxx/xxx' );`
 
 ## Block 裡的 URL
 
@@ -115,8 +104,7 @@ $block->getBaseUrl();
 $block->getUrl( '[module]/[controller]/[action]' );
 // 指定的静态文件地址
 $block->getViewFileUrl( 'Magento_Checkout::cvv.png' );
-$block->getViewFileUrl( 'images/loader-2.gif' );`   
-
+$block->getViewFileUrl( 'images/loader-2.gif' );`
 
 ## 取得所有 website 的位置
 
@@ -125,24 +113,21 @@ $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
 foreach($storeManager->getWebsites() as $website) {
     $store_id = $storeManager->getGroup($website->getDefaultGroupId())->getDefaultStoreId();
     $storeManager->getStore($store_id)->getBaseUrl();
-}`   
-
+}`
 
 ## 取得 module 下的文件
 
 `php
 /** @var \Magento\Framework\Module\Dir\Reader $reader */
 $reader = $objectManager->get('Magento\Framework\Module\Dir\Reader');
-$reader->getModuleDir('etc', 'Infinity_Project').'/di.xml';`   
-
+$reader->getModuleDir('etc', 'Infinity_Project').'/di.xml';`
 
 ## 取得資源路徑
 
 `php
 /* @var \Magento\Framework\View\Asset\Repository $asset */
 $asset = $this->_objectManager->get( '\Magento\Framework\View\Asset\Repository' );
-$asset->createAsset('Vendor_Module::js/script.js')->getPath();`   
-
+$asset->createAsset('Vendor_Module::js/script.js')->getPath();`
 
 ## 檔案操作
 
@@ -151,8 +136,7 @@ $asset->createAsset('Vendor_Module::js/script.js')->getPath();`
 $fileSystem = $this->_objectManager->get('Magento\Framework\Filesystem');
 $fileSystem->getDirectoryWrite('tmp')->copyFile($from, $to);
 $fileSystem->getDirectoryWrite('tmp')->delete($file);
-$fileSystem->getDirectoryWrite('tmp')->create($file);`   
-
+$fileSystem->getDirectoryWrite('tmp')->create($file);`
 
 ## 檔案上傳
 
@@ -189,9 +173,6 @@ $uploader->setFilesDispersion(true);
 $result = $uploader->save($directory->getPath($directory::TMP));
 $directory->getPath($directory::TMP).$result['file'];`
 
-  
-
-
 ## 產品縮圖
 
 `php
@@ -201,8 +182,7 @@ $productImage = $imageHelper->init( $product, 'category_page_list' )
   ->keepAspectRatio( TRUE )
   ->keepFrame( FALSE )
   ->resize( 400 )
-  ->getUrl();`   
-
+  ->getUrl();`
 
 ## 一般縮圖
 
@@ -210,8 +190,7 @@ $productImage = $imageHelper->init( $product, 'category_page_list' )
 $imageFactory = $objectManager->get( 'Magento\Framework\Image\Factory' );
 $imageAdapter = $imageFactory->create($path);
 $imageAdapter->resize($width, $height);
-$imageAdapter->save($savePath);`   
-
+$imageAdapter->save($savePath);`
 
 ## 產品属性
 
@@ -244,8 +223,7 @@ $childIds = $this->objectManager->get('Magento\ConfigurableProduct\Model\Product
 $collection = $this->objectManager->get('Magento\ConfigurableProduct\Model\Product\Type\Configurable')
     ->getUsedProducts($product);
 // 判断是否Configurable Product
-if ($_product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);`   
-
+if ($_product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);`
 
 ## 取得購物車中所有商品
 
@@ -255,15 +233,13 @@ $checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
 foreach($checkoutSession->getQuote()->getItems() as $item) {
     /* @var \Magento\Quote\Model\Quote\Item $item */
     echo $item->getProduct()->getName().'<br/>';
-}`   
-
+}`
 
 ## 取得 Product Type 配置
 
 `php
 $eavConfig->getAttribute('catalog_product', 'price');
-$eavConfig->getEntityType('catalog_product');`   
-
+$eavConfig->getEntityType('catalog_product');`
 
 ## 取得 EAV 属性所有可選選項
 
@@ -276,16 +252,14 @@ $options = $eavConfig->getAttribute( '[entity_type]', '[attribute_code]' )
 /* @var $objectManager \Magento\Framework\App\ObjectManager */
 $options = $objectManager->create( 'Magento\Eav\Model\Attribute' )
     ->load( '[attribute_code]', 'attribute_code' )->getSource()
-    ->getAllOptions( false );`   
-
+    ->getAllOptions( false );`
 
 ## 取得 config.xml 與 system.xml 裡的參數
 
 `php
 $this->_scopeConfig = $this->_objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
 // 语言代码
-$this->_scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);`   
-
+$this->_scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);`
 
 ## 客戶唯一屬性驗證
 
@@ -302,8 +276,7 @@ if($customer instanceof \Magento\Customer\Model\Customer) {
             }
         }
     }
-}`   
-
+}`
 
 ## 讀取 design view.xml
 
@@ -315,8 +288,7 @@ if($customer instanceof \Magento\Customer\Model\Customer) {
 `php
 /* @var \Magento\Framework\Config\View $viewConfig */
 $viewConfig = $objectManager->get('Magento\Framework\Config\View');
-$viewConfig->getVarValue('Vendor_Module', 'var1');`   
-
+$viewConfig->getVarValue('Vendor_Module', 'var1');`
 
 ## 取得郵件模組
 
@@ -339,8 +311,7 @@ $templateFactory->setOptions([
     'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID
 ]);
 $templateFactory->setVars(['data' => $dataObject]);
-return $templateFactory->processTemplate();`   
-
+return $templateFactory->processTemplate();`
 
 ## 内容返回
 
@@ -356,8 +327,7 @@ $this->resultFactory = $this->_objectManager->create('Magento\Framework\Controll
 /* @var \Magento\Framework\Controller\Result\Json $result */
 $result = $this->resultFactory->create();
 $result->setData(['message' => 'hellog world']);
-return $result;`   
-
+return $result;`
 
 ## HTTP文件
 
@@ -368,17 +338,15 @@ $this->_fileFactory->create(
     $pdf->render(),
     DirectoryList::VAR_DIR,
     'application/pdf'
-);`   
-
+);`
 
 ## 切换貨幣與語言
 
-\``\`php $currencyCode = 'GBP'; /* @var \Magento\Store\Model\Store $store */ $store = $this->_objectManager->get('Magento\Store\Model\Store'); $store->setCurrentCurrencyCode($currencyCode);
+``\`php $currencyCode = 'GBP'; /* @var \Magento\Store\Model\Store $store */ $store = $this->_objectManager->get('Magento\Store\Model\Store'); $store->setCurrentCurrencyCode($currencyCode);
 
 $storeCode = 'uk'; /* @var \Magento\Store\Api\StoreRepositoryInterface $storeRepository */ $storeRepository = $this->_objectManager->get('Magento\Store\Api\StoreRepositoryInterface'); /* @var \Magento\Store\Model\StoreManagerInterface $storeManager */ $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface'); /* @var \Magento\Store\Api\StoreCookieManagerInterface $storeCookieManager */ $storeCookieManager = $this->_objectManager->get('Magento\Store\Api\StoreCookieManagerInterface'); /* @var \Magento\Framework\App\Http\Context $httpContext */ $httpContext = $this->_objectManager->get('Magento\Framework\App\Http\Context'); $defaultStoreView = $storeManager->getDefaultStoreView(); $store = $storeRepository->getActiveStoreByCode($storeCode); $httpContext->setValue(\Magento\Store\Model\Store::ENTITY, $store->getCode(), $defaultStoreView->getCode()); $storeCookieManager->setStoreCookie($store);
 
-$this->getResponse()->setRedirect($this->_redirect->getRedirectUrl()); \``\`   
-
+$this->getResponse()->setRedirect($this->_redirect->getRedirectUrl()); ``\`
 
 ## Profiler
 
@@ -387,8 +355,7 @@ $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl()); \``\`
     'CONFIGURABLE:' . __METHOD__,
     ['group' => 'CONFIGURABLE', 'method' => __METHOD__]
 );
-\Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);`   
-
+\Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);`
 
 ## HTML表單元素
 
@@ -402,8 +369,7 @@ $block->getLayout()->createBlock('Magento\Framework\View\Element\Html\Date')
     ->setDateFormat('M/d/yy')
     ->setImage($block->getViewFileUrl('Magento_Theme::calendar.png'))
     ->setExtraParams('data-validate="{required:true}"')
-    ->toHtml();`   
-
+    ->toHtml();`
 
 ## Select 元件
 
@@ -415,17 +381,15 @@ $block->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
     ->addOption('value', 'label')
     ->setValue($default)
     ->setExtraParams('data-validate="{required:true}"')
-    ->toHtml();`   
-
+    ->toHtml();`
 
 ## 取得當前 Category
 
-\``\`php $registry = $objectManager->get('Magento\Framework\Registry');
+``\`php $registry = $objectManager->get('Magento\Framework\Registry');
 
 $currentCatetory = $registry->registry('current_category');
 
-echo $catId = $currentCatetory->getId(); \``\`   
-
+echo $catId = $currentCatetory->getId(); ``\`
 
 ## 使用資料Select
 
@@ -433,34 +397,25 @@ echo $catId = $currentCatetory->getId(); \``\`
 $collection = $this->_objectManager->get( 'Magento\Catalog\Model\ProductFactory' )->create()->getCollection();
 echo $collection->load()->getSelectSql( true );`
 
-  
-
-
 ## 使用 Select 取得數據
 
-\``\`php $conn = $this->\_objectManager->get( 'Magento\Framework\App\ResourceConnection' )->getConnection(); $tblMain = $conn->getTableName( 'cms\_page' ); $tblStore = $conn->getTableName( 'cms_page_store' );
+``\`php $conn = $this->\_objectManager->get( 'Magento\Framework\App\ResourceConnection' )->getConnection(); $tblMain = $conn->getTableName( 'cms\_page' ); $tblStore = $conn->getTableName( 'cms_page_store' );
 
 $select = $conn->select() ->distinct() ->from( [ 'page' => $tblMain ], [ 'page_id', 't' => 'title' ] ) ->join( [ 'store' => $tblStore ], 'store.page_id = page.page_id', [ 'sid' => 'store_id' ] ) ->where( 'is_active = ?', '1' ) ->order( 'title ASC' ) ->limit( 5, 1 );
 
-$data = $conn->fetchAll( $select ); \``\`
-
-  
-
+$data = $conn->fetchAll( $select ); ``\`
 
 ## 聚合查询（SUM）
 
-\``\`php $conn = $this->\_objectManager->get( 'Magento\Framework\App\ResourceConnection' )->getConnection(); $tbl = $conn->getTableName( 'sales\_order_item' );
+``\`php $conn = $this->\_objectManager->get( 'Magento\Framework\App\ResourceConnection' )->getConnection(); $tbl = $conn->getTableName( 'sales\_order_item' );
 
 // 所有记录总计 $select = $conn->select() ->from( $tbl, [ 'total' => new \Zend_Db_Expr( 'SUM( qty_ordered )' ) ] ) ->where( 'order_id = ?', '1' ); $result = $conn->fetchOne( $select );
 
-// 各局部统计 $select = $conn->select() ->from( $tbl, [ 'order_id', 'total' => new \Zend_Db_Expr( 'SUM( qty_ordered )' ) ] ) ->group( 'order_id' ) ->having( 'order_id != ?', '1' ); $result = $conn->fetchAll( $select ); \``\`
-
-  
-
+// 各局部统计 $select = $conn->select() ->from( $tbl, [ 'order_id', 'total' => new \Zend_Db_Expr( 'SUM( qty_ordered )' ) ] ) ->group( 'order_id' ) ->having( 'order_id != ?', '1' ); $result = $conn->fetchAll( $select ); ``\`
 
 ## 更新数据
 
-\``\`php /** @var $conn \Magento\Framework\App\ResourceConnection */ /** @var $storeId int */ /** @var $ids array */
+``\`php /** @var $conn \Magento\Framework\App\ResourceConnection */ /** @var $storeId int */ /** @var $ids array */
 
 $tbl = $conn->getTableName( 'sales_order_item' );
 
@@ -470,19 +425,13 @@ $tbl = $conn->getTableName( 'sales_order_item' );
 
 // 更新数据 $conn->update( $tbl, [ 'field_one' => $fieldOne, 'field_two' => $fieldTwo ], $conn->quoteInto( 'store_id IN (?)', $storeId ) );
 
-// 删除数据 $conn->delete( $tbl, [ 'id IN (?)' => $ids ] ); \``\`
-
-  
-
+// 删除数据 $conn->delete( $tbl, [ 'id IN (?)' => $ids ] ); ``\`
 
 ## Model
 
-\``\`php
+``\`php
 
-/* @var \Magento\Directory\Model\ResourceModel\Region\Collection $collection */ $collection = $objectManager->get('Magento\Directory\Model\ResourceModel\Region\Collection'); $collection->getSelect() ->where('main_table.region_id = ?', 1) ->where('main_table.country_id=?', 'US'); foreach($collection as $row) { echo $row->getData('default_name'); } \``\`
-
-  
-
+/* @var \Magento\Directory\Model\ResourceModel\Region\Collection $collection */ $collection = $objectManager->get('Magento\Directory\Model\ResourceModel\Region\Collection'); $collection->getSelect() ->where('main_table.region_id = ?', 1) ->where('main_table.country_id=?', 'US'); foreach($collection as $row) { echo $row->getData('default_name'); } ``\`
 
 # Entity collection
 
@@ -494,8 +443,7 @@ $collection->addAttributeToSort($field, 'desc');
 $collection->addStoreFilter();
 $collection->addUrlRewrite();
 $collection->setPageSize( 10 );
-$collection->addAttributeToSelect($field);`   
-
+$collection->addAttributeToSelect($field);`
 
 # 包含 Field 的查询
 
@@ -506,9 +454,6 @@ $collection->addAttributeToSelect($field, 'left'); // 等同于select xx as fiel
 $collection->addAttributeToFilter($field, 'field > 0')// 等同于where field > 0
 $collection->setOrder($field, 'ASC'); // 等同于order by xxx ASC`
 
-  
-
-
 # 特價置頂
 
 #### Special Price 是個特别的個案，需要在有效期間生效，有效期外不生效
@@ -517,8 +462,7 @@ $collection->setOrder($field, 'ASC'); // 等同于order by xxx ASC`
 $collection->addAttributeToSelect('special_from_date', 'left');
 $collection->addAttributeToSelect('special_to_date', 'left');
 $collection->addAttributeToSelect('special_price', 'left');
-$collection->getSelect()->order('IF(special_from_date < now() AND special_to_date > now(), special_price, 0) DESC');`   
-
+$collection->getSelect()->order('IF(special_from_date < now() AND special_to_date > now(), special_price, 0) DESC');`
 
 ### 參考文件
 
