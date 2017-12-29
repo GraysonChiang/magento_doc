@@ -408,20 +408,19 @@ $directory-&gt;getPath($directory::TMP).$result['file'];
 &lt;/vars&gt;
 </code></pre>
 
-```php 
-&lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
     /* @var \Magento\Framework\Config\View $viewConfig */
-$viewConfig = $objectManager-&gt;get(&#039;Magento\Framework\Config\View&#039;);
-$viewConfig-&gt;getVarValue(&#039;Vendor_Module&#039;, &#039;var1&#039;);
+    $viewConfig = $objectManager-&gt;get('Magento\Framework\Config\View');
+    $viewConfig-&gt;getVarValue('Vendor_Module', 'var1');
+</code></pre>
 
-&lt;pre class=&quot;line-numbers prism-highlight&quot; data-start=&quot;1&quot;&gt;&lt;code class=&quot;language-null&quot;&gt;&lt;br&gt;
+<br>
 
+<h2>取得郵件模組</h2>
 
-## 取得郵件模組
-##### 雖然叫郵件模組，但也可以用于需要后台编辑模板的程序
+<h5>雖然叫郵件模組，但也可以用于需要后台编辑模板的程序</h5>
 
-```php
- &lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
 // template id, 通常在email_templates.xml定义。如果是在后台加的email template，需要换成template的记录ID，例如90
 $identifier = 'contact_email_email_template';
 /* @var \Magento\Framework\Mail\TemplateInterface $templateFactory */
