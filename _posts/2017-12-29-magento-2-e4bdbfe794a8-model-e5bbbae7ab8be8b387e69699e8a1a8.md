@@ -10,7 +10,7 @@ post_date: 2017-12-29 15:05:19
 ---
 <h2>說明</h2>
 
-<h4>Magento 是一個開源的電子商城購物網站，在客製化的時候，難免不了需要自己新增資料表及各式各樣的欄位，在 Magento 內部有實作了很好用的 方法，有助於我們資料表 Schema 的建立及還原。</h4>
+Magento 是一個開源的電子商城購物網站，在客製化的時候，難免不了需要自己新增資料表及各式各樣的欄位，在 Magento 內部有實作了很好用的 方法，有助於我們資料表 Schema 的建立及還原。
 
 <h2>執行環境</h2>
 
@@ -22,7 +22,7 @@ post_date: 2017-12-29 15:05:19
 
 <h2>1. Magento Setup  方法</h2>
 
-<h4>Magento 實作了一系列的方法，在執行 <code>bin/magento setup:upgrade</code> 的時候會依照順序執行的四個 Class 。</h4>
+Magento 實作了一系列的方法，在執行 <code>bin/magento setup:upgrade</code> 的時候會依照順序執行的四個 Class 。
 
 <ul>
 <li>InstallSchema</li>
@@ -31,7 +31,7 @@ post_date: 2017-12-29 15:05:19
 <li>UpgradeData</li>
 </ul>
 
-<h4>所以如果要在 <code>upgrade</code> 的時候執行這些 Class 內程式的話，就必須依照 Magento 的方法實作我們先實作空的檔案當作範例，之後加入 Schema 的資料。</h4>
+所以如果要在 <code>upgrade</code> 的時候執行這些 Class 內程式的話，就必須依照 Magento 的方法實作我們先實作空的檔案當作範例，之後加入 Schema 的資料。
 
 <br>
 
