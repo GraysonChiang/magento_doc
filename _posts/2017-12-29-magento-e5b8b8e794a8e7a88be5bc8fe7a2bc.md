@@ -418,26 +418,31 @@ $directory-&gt;getPath($directory::TMP).$result['file'];
 
 <h2>取得郵件模組</h2>
 
-<h5>雖然叫郵件模組，但也可以用于需要后台编辑模板的程序</h5>
+<h5>雖然叫郵件模組，但也可以用於需要後台編輯模板的程式</h5>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-// template id, 通常在email_templates.xml定义。如果是在后台加的email template，需要换成template的记录ID，例如90
-$identifier = 'contact_email_email_template';
-/* @var \Magento\Framework\Mail\TemplateInterface $templateFactory */
-$templateFactory = $this-&gt;_objectManager-&gt;create(
-    'Magento\Framework\Mail\TemplateInterface',
-    ['data' =&gt; ['template_id' =&gt; $identifier]]
-);
-// 模板变量，取决于phtml或后台email template的内容
-$dataObject = new \Magento\Framework\DataObject();
-$dataObject-&gt;setData('name', 'william');
-// 决定模板变量取值区域，例如像{{layout}}这样的标签，如果取不到值可以试试把area设为frontend
-$templateFactory-&gt;setOptions([
-    'area' =&gt; \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-    'store' =&gt; \Magento\Store\Model\Store::DEFAULT_STORE_ID
-]);
-$templateFactory-&gt;setVars(['data' =&gt; $dataObject]);
-return $templateFactory-&gt;processTemplate();
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    // template id, 通常在 email_templates.xml 定義。如果是在後台加的 email template，需要换成template 的紀錄 ID，例如 90
+    $identifier = 'contact_email_email_template';
+
+    /* @var \Magento\Framework\Mail\TemplateInterface $templateFactory */
+    $templateFactory = $this-&gt;_objectManager-&gt;create(
+        'Magento\Framework\Mail\TemplateInterface',
+        ['data' =&gt; ['template_id' =&gt; $identifier]]
+    );
+
+    // 模板變數，取决於 phtml 或後台 email template 的内容
+    $dataObject = new \Magento\Framework\DataObject();
+    $dataObject-&gt;setData('name', 'william');
+
+    // 決定模板變數取值區域，例如像 {{layout}} 這樣的標籤，如果取不到值可以試試把 area 設為 frontend
+    $templateFactory-&gt;setOptions([
+        'area' =&gt; \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
+        'store' =&gt; \Magento\Store\Model\Store::DEFAULT_STORE_ID
+    ]);
+
+    $templateFactory-&gt;setVars(['data' =&gt; $dataObject]);
+
+    return $templateFactory-&gt;processTemplate();
 </code></pre>
 
 <br>
@@ -515,7 +520,7 @@ $this-&gt;getResponse()-&gt;setRedirect($this-&gt;_redirect-&gt;getRedirectUrl()
 
 <br>
 
-<h2>HTML表單元素</h2>
+<h2>HTML 表單元素</h2>
 
 <h3>日曆元件</h3>
 
@@ -549,70 +554,70 @@ $block-&gt;getLayout()-&gt;createBlock('Magento\Framework\View\Element\Html\Sele
 
 <h2>取得當前 Category</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
- $registry = $objectManager-&gt;get('Magento\Framework\Registry');
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    // 使用 registr  可以傳遞的變數有很多，這是其中之一
+  $registry = $objectManager-&gt;get('Magento\Framework\Registry');
+  $currentCatetory = $registry-&gt;registry('current_category');
+  echo $catId = $currentCatetory-&gt;getId();
 
- $currentCatetory = $registry-&gt;registry('current_category');
-
- echo $catId = $currentCatetory-&gt;getId();
 </code></pre>
 
 <br>
 
 <h2>使用資料Select</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$collection = $this-&gt;_objectManager-&gt;get( 'Magento\Catalog\Model\ProductFactory' )-&gt;create()-&gt;getCollection();
-echo $collection-&gt;load()-&gt;getSelectSql( true );
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    $collection = $this-&gt;_objectManager-&gt;get( 'Magento\Catalog\Model\ProductFactory' )-&gt;create()-&gt;getCollection();
+    echo $collection-&gt;load()-&gt;getSelectSql( true );
 </code></pre>
 
 <br>
 
 <h2>使用 Select 取得數據</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$conn = $this-&gt;_objectManager-&gt;get( 'Magento\Framework\App\ResourceConnection' )-&gt;getConnection();
-$tblMain = $conn-&gt;getTableName( 'cms_page' );
-$tblStore = $conn-&gt;getTableName( 'cms_page_store' );
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    $conn = $this-&gt;_objectManager-&gt;get( 'Magento\Framework\App\ResourceConnection' )-&gt;getConnection();
+    $tblMain = $conn-&gt;getTableName( 'cms_page' );
+    $tblStore = $conn-&gt;getTableName( 'cms_page_store' );
 
-$select = $conn-&gt;select()
-        -&gt;distinct()
-        -&gt;from( [ 'page' =&gt; $tblMain ], [ 'page_id', 't' =&gt; 'title' ] )
-        -&gt;join( [ 'store' =&gt; $tblStore ], 'store.page_id = page.page_id', [ 'sid' =&gt; 'store_id' ] )
-        -&gt;where( 'is_active = ?', '1' )
-        -&gt;order( 'title ASC' )
-        -&gt;limit( 5, 1 );
+    $select = $conn-&gt;select()
+            -&gt;distinct()
+            -&gt;from( [ 'page' =&gt; $tblMain ], [ 'page_id', 't' =&gt; 'title' ] )
+            -&gt;join( [ 'store' =&gt; $tblStore ], 'store.page_id = page.page_id', [ 'sid' =&gt; 'store_id' ] )
+            -&gt;where( 'is_active = ?', '1' )
+            -&gt;order( 'title ASC' )
+            -&gt;limit( 5, 1 );
 
-$data = $conn-&gt;fetchAll( $select );
+    $data = $conn-&gt;fetchAll( $select );
 </code></pre>
 
 <br>
 
-<h2>聚合查询（SUM）</h2>
+<h2>聚合查询（ SUM ）</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$conn = $this-&gt;_objectManager-&gt;get( 'Magento\Framework\App\ResourceConnection' )-&gt;getConnection();
-$tbl = $conn-&gt;getTableName( 'sales_order_item' );
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    $conn = $this-&gt;_objectManager-&gt;get( 'Magento\Framework\App\ResourceConnection' )-&gt;getConnection();
+    $tbl = $conn-&gt;getTableName( 'sales_order_item' );
 
-// 所有记录总计
-$select = $conn-&gt;select()
-        -&gt;from( $tbl, [ 'total' =&gt; new \Zend_Db_Expr( 'SUM( qty_ordered )' ) ] )
-        -&gt;where( 'order_id = ?', '1' );
-$result = $conn-&gt;fetchOne( $select );
+    // 所有记录总计
+    $select = $conn-&gt;select()
+            -&gt;from( $tbl, [ 'total' =&gt; new \Zend_Db_Expr( 'SUM( qty_ordered )' ) ] )
+            -&gt;where( 'order_id = ?', '1' );
+    $result = $conn-&gt;fetchOne( $select );
 
-// 各局部统计
-$select = $conn-&gt;select()
-        -&gt;from( $tbl, [ 'order_id', 'total' =&gt; new \Zend_Db_Expr( 'SUM( qty_ordered )' ) ] )
-        -&gt;group( 'order_id' )
-        -&gt;having( 'order_id != ?', '1' );
-$result = $conn-&gt;fetchAll( $select );
+    // 各局部统计
+    $select = $conn-&gt;select()
+            -&gt;from( $tbl, [ 'order_id', 'total' =&gt; new \Zend_Db_Expr( 'SUM( qty_ordered )' ) ] )
+            -&gt;group( 'order_id' )
+            -&gt;having( 'order_id != ?', '1' );
+    $result = $conn-&gt;fetchAll( $select );
 </code></pre>
 
 <br>
 
 <h2>更新数据</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
 /** @var $conn \Magento\Framework\App\ResourceConnection */
 /** @var $storeId int */
 /** @var $ids array */
@@ -636,7 +641,7 @@ $conn-&gt;delete( $tbl, [ 'id IN (?)' =&gt; $ids ] );
 
 <h2>Model</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
     /* @var \Magento\Directory\Model\ResourceModel\Region\Collection $collection */
     $collection = $objectManager-&gt;get('Magento\Directory\Model\ResourceModel\Region\Collection');
 
@@ -644,7 +649,7 @@ $conn-&gt;delete( $tbl, [ 'id IN (?)' =&gt; $ids ] );
         -&gt;where('main_table.region_id = ?', 1)
         -&gt;where('main_table.country_id=?', 'US');
             foreach($collection as $row) {
-                echo $row-&gt;getData('default_name');
+                    echo $row-&gt;getData('default_name');
                 }
 </code></pre>
 
@@ -654,7 +659,7 @@ $conn-&gt;delete( $tbl, [ 'id IN (?)' =&gt; $ids ] );
 
 <h2>常用方法</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
     $collection-&gt;addAttributeToFilter($field, [ 'in' =&gt; $arr ]);
     $collection-&gt;addAttributeToSort($field, 'desc');
     $collection-&gt;addStoreFilter();
@@ -669,7 +674,7 @@ $conn-&gt;delete( $tbl, [ 'id IN (?)' =&gt; $ids ] );
 
 <h4>Entity Collection 有查詢 field 的能力，只要查詢條件裡跟 field 有關，就會自動把 field 所在的表 join 到查詢中</h4>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
 
     $collection-&gt;addAttributeToSelect($field, 'left'); // 等同于select xx as field ... left join xxx
     $collection-&gt;addAttributeToFilter($field, 'field &gt; 0')// 等同于where field &gt; 0
@@ -682,7 +687,7 @@ $conn-&gt;delete( $tbl, [ 'id IN (?)' =&gt; $ids ] );
 
 <h4>Special Price 是個特别的個案，需要在有效期間生效，有效期外不生效</h4>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
     $collection-&gt;addAttributeToSelect('special_from_date', 'left');
     $collection-&gt;addAttributeToSelect('special_to_date', 'left');
     $collection-&gt;addAttributeToSelect('special_price', 'left');
