@@ -194,7 +194,7 @@ $store = $objectManager-&gt;get( 'Magento\Store\Model\StoreManagerInterface' )-&
 
 <br>
 
-##取得資源路徑
+<h2>取得資源路徑</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
     /* @var \Magento\Framework\View\Asset\Repository $asset */
