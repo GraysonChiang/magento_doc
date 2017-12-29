@@ -37,7 +37,7 @@ Magento 實作了一系列的方法，在執行 <code>bin/magento setup:upgrade<
 
 <h2>2.  建立 InstallSchema Class</h2>
 
-<h4>範例如下，看到他繼承 <code>Magento\Framework\Setup\InstallSchemaInterface</code> 這個 Namespace 的 Class。</h4>
+範例如下，看到他繼承 <code>Magento\Framework\Setup\InstallSchemaInterface</code> 這個 Namespace 的 Class。
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
 namespace Astralweb\ORM\Setup;
