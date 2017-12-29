@@ -10,10 +10,9 @@ post_date: 2017-12-29 15:32:13
 ---
 這邊紀錄了許多常用的程式碼，大部分是從 <code>segmentfault</code> 參考而來，再加上自己的發現的部分程式碼結合而成，單純做個紀錄，希望幫助到大家。
 
-<h2>取得objectManager</h2>
+<h2>取得 objectManager</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
-
     //object Maganer 是 Magento 中好用的方法，不過官方不建議直接使用
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 </code></pre>
@@ -104,7 +103,7 @@ $coreRegistry-&gt;registry('current_category');
 
 <br>
 
-<h2>取得當前Store</h2>
+<h2>取得當前 Store</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
 $store = $objectManager-&gt;get( 'Magento\Store\Model\StoreManagerInterface' )-&gt;getStore();
@@ -124,7 +123,7 @@ $store = $objectManager-&gt;get( 'Magento\Store\Model\StoreManagerInterface' )-&
 
 <br>
 
-<h2>log (support_report.log)</h2>
+<h2>log ( support_report.log )</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
     \Magento\Framework\App\ObjectManager::getInstance()
@@ -219,7 +218,7 @@ $store = $objectManager-&gt;get( 'Magento\Store\Model\StoreManagerInterface' )-&
 <h2>檔案上傳</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-    // 上传到media
+    // 上傳到 pub/media 目錄中
     $request = $this-&gt;getRequest ();
     if($request-&gt;isPost()) {
      try{
@@ -241,18 +240,17 @@ $store = $objectManager-&gt;get( 'Magento\Store\Model\StoreManagerInterface' )-&
 </code></pre>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+// 上傳到 pub/media/tmp 資料夾
+    /* @var \Magento\Framework\App\Filesystem\DirectoryList $directory */
+    $directory = $this-&gt;_objectManager-&gt;get('Magento\Framework\App\Filesystem\DirectoryList');
 
-// 上传到tmp
-/* @var \Magento\Framework\App\Filesystem\DirectoryList $directory */
-$directory = $this-&gt;_objectManager-&gt;get('Magento\Framework\App\Filesystem\DirectoryList');
-
-/* @var \Magento\Framework\File\Uploader $uploader */
-$uploader = $this-&gt;_objectManager-&gt;create('Magento\Framework\File\Uploader', array('fileId' =&gt; 'file1'));
-$uploader-&gt;setAllowedExtensions(array('csv'));
-$uploader-&gt;setAllowRenameFiles(true);
-$uploader-&gt;setFilesDispersion(true);
-$result = $uploader-&gt;save($directory-&gt;getPath($directory::TMP));
-$directory-&gt;getPath($directory::TMP).$result['file'];
+    /* @var \Magento\Framework\File\Uploader $uploader */
+    $uploader = $this-&gt;_objectManager-&gt;create('Magento\Framework\File\Uploader', array('fileId' =&gt; 'file1'));
+    $uploader-&gt;setAllowedExtensions(array('csv'));
+    $uploader-&gt;setAllowRenameFiles(true);
+    $uploader-&gt;setFilesDispersion(true);
+    $result = $uploader-&gt;save($directory-&gt;getPath($directory::TMP));
+    $directory-&gt;getPath($directory::TMP).$result['file'];
 
 </code></pre>
 
@@ -287,7 +285,6 @@ $directory-&gt;getPath($directory::TMP).$result['file'];
 <h2>產品属性</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
-
     /* @var \Magento\Catalog\Model\ProductRepository $product */
     $product = $objectManager-&gt;create('Magento\Catalog\Model\ProductRepository')-&gt;getById($id);
 
@@ -311,7 +308,7 @@ $directory-&gt;getPath($directory::TMP).$result['file'];
     $stockItem = $this-&gt;stockRegistry-&gt;getStockItem($productId, $product-&gt;getStore()-&gt;getWebsiteId());
     $minimumQty = $stockItem-&gt;getMinSaleQty();
 
-    // Configurable Product 获取父级产品ID
+    // Configurable Product 获取父级產品 ID
     $parentIds = $this-&gt;objectManager-&gt;get('Magento\ConfigurableProduct\Model\Product\Type\Configurable')
     -&gt;getParentIdsByChild($productId);
     $parentId = array_shift($parentIds);
@@ -373,7 +370,7 @@ $directory-&gt;getPath($directory::TMP).$result['file'];
 <h2>取得 config.xml 與 system.xml 裡的參數</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
-    $this-&gt;_scopeConfig = $this-&gt;_objectManager-&gt;create('Magento\Framework\App\Config\ScopeConfigInterface');       
+    $this-&gt;_scopeConfig = $this-&gt;_objectManager-&gt;create('Magento\Framework\App\Config\ScopeConfigInterface');
 
     // 语言代码
     $this-&gt;_scopeConfig-&gt;getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
@@ -383,7 +380,7 @@ $directory-&gt;getPath($directory::TMP).$result['file'];
 
 <h2>客戶唯一屬性驗證</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
     if($customer instanceof \Magento\Customer\Model\Customer) {
         /* @var \Magento\Customer\Model\Attribute $attribute */
         foreach($customer-&gt;getAttributes() as $attribute) {
@@ -449,20 +446,21 @@ $directory-&gt;getPath($directory::TMP).$result['file'];
 
 <h2>内容返回</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$this-&gt;resultFactory = $this-&gt;_objectManager-&gt;create('Magento\Framework\Controller\Result\RawFactory');
-/* @var \Magento\Framework\Controller\Result\Raw $result */
-$result = $this-&gt;resultFactory-&gt;create();
-$result-&gt;setContents('hello world');
-return $result;
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    $this-&gt;resultFactory = $this-&gt;_objectManager-&gt;create('Magento\Framework\Controller\Result\RawFactory');
+    /* @var \Magento\Framework\Controller\Result\Raw $result */
+    $result = $this-&gt;resultFactory-&gt;create();
+    $result-&gt;setContents('hello world');
+    return $result;
 </code></pre>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$this-&gt;resultFactory = $this-&gt;_objectManager-&gt;create('Magento\Framework\Controller\Result\JsonFactory');
-/* @var \Magento\Framework\Controller\Result\Json $result */
-$result = $this-&gt;resultFactory-&gt;create();
-$result-&gt;setData(['message' =&gt; 'hellog world']);
-return $result;
+    $this-&gt;resultFactory = $this-&gt;_objectManager-&gt;create('Magento\Framework\Controller\Result\JsonFactory');
+
+    /* @var \Magento\Framework\Controller\Result\Json $result */
+    $result = $this-&gt;resultFactory-&gt;create();
+    $result-&gt;setData(['message' =&gt; 'hellog world']);
+    return $result;
 </code></pre>
 
 <br>
@@ -470,52 +468,56 @@ return $result;
 <h2>HTTP文件</h2>
 
 <pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$this-&gt;_fileFactory = $this-&gt;_objectManager-&gt;create('Magento\Framework\App\Response\Http\FileFactory');
-$this-&gt;_fileFactory-&gt;create(
-    'invoice' . $date . '.pdf',
-    $pdf-&gt;render(),
-    DirectoryList::VAR_DIR,
-    'application/pdf'
-);
+    $this-&gt;_fileFactory = $this-&gt;_objectManager-&gt;create('Magento\Framework\App\Response\Http\FileFactory');
+    $this-&gt;_fileFactory-&gt;create(
+            'invoice' . $date . '.pdf',
+            $pdf-&gt;render(),
+            DirectoryList::VAR_DIR,
+            'application/pdf'
+    );
 </code></pre>
 
 <br>
 
 <h2>切换貨幣與語言</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$currencyCode = 'GBP';
-/* @var \Magento\Store\Model\Store $store */
-$store = $this-&gt;_objectManager-&gt;get('Magento\Store\Model\Store');
-$store-&gt;setCurrentCurrencyCode($currencyCode);
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    $currencyCode = 'GBP';
 
-$storeCode = 'uk';
-/* @var \Magento\Store\Api\StoreRepositoryInterface $storeRepository */
-$storeRepository = $this-&gt;_objectManager-&gt;get('Magento\Store\Api\StoreRepositoryInterface');
-/* @var \Magento\Store\Model\StoreManagerInterface $storeManager */
-$storeManager = $this-&gt;_objectManager-&gt;get('Magento\Store\Model\StoreManagerInterface');
-/* @var \Magento\Store\Api\StoreCookieManagerInterface $storeCookieManager */
-$storeCookieManager = $this-&gt;_objectManager-&gt;get('Magento\Store\Api\StoreCookieManagerInterface');
-/* @var \Magento\Framework\App\Http\Context $httpContext */
-$httpContext = $this-&gt;_objectManager-&gt;get('Magento\Framework\App\Http\Context');
-$defaultStoreView = $storeManager-&gt;getDefaultStoreView();
-$store = $storeRepository-&gt;getActiveStoreByCode($storeCode);
-$httpContext-&gt;setValue(\Magento\Store\Model\Store::ENTITY, $store-&gt;getCode(), $defaultStoreView-&gt;getCode());
-$storeCookieManager-&gt;setStoreCookie($store);
+    /* @var \Magento\Store\Model\Store $store */
+    $store = $this-&gt;_objectManager-&gt;get('Magento\Store\Model\Store');
+    $store-&gt;setCurrentCurrencyCode($currencyCode);
 
-$this-&gt;getResponse()-&gt;setRedirect($this-&gt;_redirect-&gt;getRedirectUrl());
+    $storeCode = 'uk';
+
+    /* @var \Magento\Store\Api\StoreRepositoryInterface $storeRepository */
+    $storeRepository = $this-&gt;_objectManager-&gt;get('Magento\Store\Api\StoreRepositoryInterface');
+
+    /* @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+    $storeManager = $this-&gt;_objectManager-&gt;get('Magento\Store\Model\StoreManagerInterface');
+
+    /* @var \Magento\Store\Api\StoreCookieManagerInterface $storeCookieManager */
+    $storeCookieManager = $this-&gt;_objectManager-&gt;get('Magento\Store\Api\StoreCookieManagerInterface');
+
+    /* @var \Magento\Framework\App\Http\Context $httpContext */
+    $httpContext = $this-&gt;_objectManager-&gt;get('Magento\Framework\App\Http\Context');
+    $defaultStoreView = $storeManager-&gt;getDefaultStoreView();
+    $store = $storeRepository-&gt;getActiveStoreByCode($storeCode);
+    $httpContext-&gt;setValue(\Magento\Store\Model\Store::ENTITY, $store-&gt;getCode(), $defaultStoreView-&gt;getCode());
+    $storeCookieManager-&gt;setStoreCookie($store);
+    $this-&gt;getResponse()-&gt;setRedirect($this-&gt;_redirect-&gt;getRedirectUrl());
 </code></pre>
 
 <br>
 
 <h2>Profiler</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-\Magento\Framework\Profiler::start(
-    'CONFIGURABLE:' . __METHOD__,
-    ['group' =&gt; 'CONFIGURABLE', 'method' =&gt; __METHOD__]
-);
-\Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    \Magento\Framework\Profiler::start(
+        'CONFIGURABLE:' . __METHOD__,
+        ['group' =&gt; 'CONFIGURABLE', 'method' =&gt; __METHOD__]
+    );
+    \Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);
 </code></pre>
 
 <br>
@@ -524,30 +526,30 @@ $this-&gt;getResponse()-&gt;setRedirect($this-&gt;_redirect-&gt;getRedirectUrl()
 
 <h3>日曆元件</h3>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$block-&gt;getLayout()-&gt;createBlock('Magento\Framework\View\Element\Html\Date')
-    -&gt;setName('date')
-    -&gt;setId('date')
-    -&gt;setClass('date')
-    -&gt;setDateFormat('M/d/yy')
-    -&gt;setImage($block-&gt;getViewFileUrl('Magento_Theme::calendar.png'))
-    -&gt;setExtraParams('data-validate="{required:true}"')
-    -&gt;toHtml();
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    $block-&gt;getLayout()-&gt;createBlock('Magento\Framework\View\Element\Html\Date')
+        -&gt;setName('date')
+        -&gt;setId('date')
+        -&gt;setClass('date')
+        -&gt;setDateFormat('M/d/yy')
+        -&gt;setImage($block-&gt;getViewFileUrl('Magento_Theme::calendar.png'))
+        -&gt;setExtraParams('data-validate="{required:true}"')
+        -&gt;toHtml();
 </code></pre>
 
 <br>
 
 <h2>Select 元件</h2>
 
-<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php"> &lt;?php
-$block-&gt;getLayout()-&gt;createBlock('Magento\Framework\View\Element\Html\Select')
-    -&gt;setName('sel1')
-    -&gt;setId('sel1')
-    -&gt;setClass('select')
-    -&gt;addOption('value', 'label')
-    -&gt;setValue($default)
-    -&gt;setExtraParams('data-validate="{required:true}"')
-    -&gt;toHtml();
+<pre class="line-numbers prism-highlight" data-start="1"><code class="language-php">&lt;?php
+    $block-&gt;getLayout()-&gt;createBlock('Magento\Framework\View\Element\Html\Select')
+        -&gt;setName('sel1')
+        -&gt;setId('sel1')
+        -&gt;setClass('select')
+        -&gt;addOption('value', 'label')
+        -&gt;setValue($default)
+        -&gt;setExtraParams('data-validate="{required:true}"')
+        -&gt;toHtml();
 </code></pre>
 
 <br>
