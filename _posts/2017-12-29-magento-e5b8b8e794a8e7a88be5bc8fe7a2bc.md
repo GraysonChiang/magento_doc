@@ -8,7 +8,7 @@ permalink: 'http://magento.im/2017/12/29/magento-%e5%b8%b8%e7%94%a8%e7%a8%8b%e5%
 published: true
 post_date: 2017-12-29 15:32:13
 ---
-<h1>Magento 2 常用程式碼</h1>
+這邊紀錄了許多常用的程式碼，大部分是從 <code>segmentfault</code> 參考而來，再加上自己的發現的部分程式碼結合而成，單純做個紀錄，希望幫助到大家。
 
 <h2>取得objectManager</h2>
 
